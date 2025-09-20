@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './MyWidget.css'
 
 // TypeScript interface for the config prop
@@ -14,10 +14,23 @@ interface MyWidgetProps {
 
 const MyWidget: React.FC<MyWidgetProps> = ({ config }) => {
   const { apiKey, theme = 'default' } = config
+  const [count, setCount] = useState(0)
+
+  const handleIncrement = () => {
+    setCount(prevCount => prevCount + 1)
+  }
 
   return (
     <div className="my-widget">
       <h1>Current Theme: {theme}</h1>
+      
+      <div className="count-section">
+        <p className="count-display">Count: {count}</p>
+        <button className="increment-button" onClick={handleIncrement}>
+          Increment Count
+        </button>
+      </div>
+
       {apiKey && (
         <p className="api-info">
           API Key configured: {apiKey.substring(0, 8)}...
