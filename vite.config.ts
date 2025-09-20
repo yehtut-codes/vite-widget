@@ -17,9 +17,19 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         external: [],
         output: {
-          globals: {}
+          globals: {},
+          assetFileNames: 'assets/[name][extname]'
         }
-      }
-    } : {}
+      },
+      // Enable minification with esbuild (default)
+      minify: true,
+      // Disable CSS code splitting for widgets
+      cssCodeSplit: false,
+      // Optimize chunk size warnings
+      chunkSizeWarningLimit: 1000
+    } : {
+      // Regular app build settings
+      outDir: 'dist/app'
+    }
   }
 })
