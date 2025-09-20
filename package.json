@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:widget": "vite build --mode widget",
+    "build:iframe": "npm run build:widget && npm run prepare:iframe",
+    "prepare:iframe": "node scripts/prepare-iframe.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

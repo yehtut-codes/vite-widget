@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget</title>
+    <style>
+        /* Reset and base styles for iframe */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        #my-widget-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Override widget styles for iframe */
+        .widget-iframe-wrapper {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Loading state */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            font-size: 1rem;
+        }
+        
+        /* Error state */
+        .error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+    <!-- Widget CSS -->
+    <link rel="stylesheet" href="./assets/my-widget.css">
+</head>
+<body>
+    <!-- Loading state -->
+    <div id="loading" class="loading">
+        Loading widget...
+    </div>
+    
+    <!-- Error state (hidden by default) -->
+    <div id="error" class="error" style="display: none;">
+        <h3>Widget Error</h3>
+        <p>Failed to load widget. Please try again later.</p>
+    </div>
+    
+    <!-- Widget container -->
+    <div id="my-widget-container" class="widget-iframe-wrapper" style="display: none;"></div>
+
+    <!-- Widget JavaScript -->
+    <script src="./my-widget.iife.js"></script>
+    <script>
+        // Auto-initialize widget with iframe-specific configuration
+        (function() {
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const container = document.getElementById('my-widget-container');
+            
+            // Parse URL parameters for configuration
+            const urlParams = new URLSearchParams(window.location.search);
+            const config = {
+                theme: urlParams.get('theme') || 'default',
+                apiKey: urlParams.get('apiKey') || undefined,
+                debug: urlParams.get('debug') === 'true'
+            };
+            
+            // Remove undefined values
+            Object.keys(config).forEach(key => 
+                config[key] === undefined && delete config[key]
+            );
+            
+            // Initialize widget with error handling
+            function initWidget() {
+                if (typeof window.initMyWidget === 'function') {
+                    window.initMyWidget(config, {
+                        timeout: 10000,
+                        retries: 2,
+                        onSuccess: function(instance) {
+                            // Hide loading, show widget
+                            loading.style.display = 'none';
+                            container.style.display = 'flex';
+                            
+                            // Post message to parent (for iframe communication)
+                            if (window.parent !== window) {
+                                window.parent.postMessage({
+                                    type: 'widget-loaded',
+                                    data: { config }
+                                }, '*');
+                            }
+                        },
+                        onError: function(err) {
+                            console.error('Widget initialization failed:', err);
+                            // Hide loading, show error
+                            loading.style.display = 'none';
+                            error.style.display = 'flex';
+                            
+                            // Post error message to parent
+                            if (window.parent !== window) {
+                                window.parent.postMessage({
+                                    type: 'widget-error',
+                                    data: { error: err.message }
+                                }, '*');
+                            }
+                        }
+                    });
+                } else {
+                    setTimeout(initWidget, 100); // Retry if widget not loaded yet
+                }
+            }
+            
+            // Start initialization
+            initWidget();
+            
+            // Handle window resize for responsive iframe
+            function handleResize() {
+                const height = document.body.scrollHeight;
+                if (window.parent !== window) {
+                    window.parent.postMessage({
+                        type: 'widget-resize',
+                        data: { height }
+                    }, '*');
+                }
+            }
+            
+            window.addEventListener('resize', handleResize);
+            setTimeout(handleResize, 1000); // Initial resize after load
+        })();
+    </script>
+</body>
+</html>
