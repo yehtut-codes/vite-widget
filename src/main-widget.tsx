@@ -1,10 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Clock from './components/Clock'
+import MyWidget from './components/MyWidget'
 import './index.css'
 
-// Export the Clock component for external use
+// Export components for external use
 export { default as Clock } from './components/Clock'
+export { default as MyWidget } from './components/MyWidget'
 
 // Create a function to render the widget
 export function renderWidget(container: HTMLElement, props?: any) {
@@ -24,5 +26,6 @@ if (typeof document !== 'undefined') {
 // Default export for the widget
 export default {
   Clock,
+  MyWidget,
   renderWidget
 }
