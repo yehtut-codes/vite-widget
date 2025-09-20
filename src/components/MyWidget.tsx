@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './MyWidget.css'
+import styles from './MyWidget.module.css'
 
 // TypeScript interface for the config prop
 interface WidgetConfig {
@@ -21,7 +21,7 @@ const MyWidget: React.FC<MyWidgetProps> = ({ config }) => {
   }
 
   return (
-    <div className="my-widget">
+    <div className={styles.widget}>
       <h1>Current Theme: {theme}</h1>
       
       <div className="count-section">

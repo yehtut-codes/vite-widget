@@ -1,0 +1,70 @@
+.widget {
+  border: 2px solid #e0e0e0;
+  padding: 1.5rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.widget h1 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.widget .count-section {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.widget .count-display {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  min-width: 100px;
+  text-align: center;
+}
+
+.widget .increment-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.widget .increment-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(-1px);
+}
+
+.widget .increment-button:active {
+  transform: translateY(0);
+}
+
+.widget .api-info {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+}
