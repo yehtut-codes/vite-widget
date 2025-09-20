@@ -12,30 +12,72 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 2rem;
         }
-        #widget-container {
+        .widget-container {
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
+        .controls {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .controls button {
+            margin: 0 0.5rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background: #0056b3;
+        }
     </style>
     <link rel="stylesheet" href="dist/my-widget.css">
 </head>
 <body>
-    <div id="widget-container">
-        <!-- The widget will be rendered here -->
+    <div class="controls">
+        <button onclick="initDarkTheme()">Init Dark Theme Widget</button>
+        <button onclick="initLightTheme()">Init Light Theme Widget</button>
+        <button onclick="initWithApiKey()">Init with API Key</button>
+    </div>
+    
+    <div class="widget-container">
+        <div id="my-widget-container">
+            <!-- The MyWidget will be rendered here -->
+        </div>
     </div>
     
     <script src="dist/my-widget.iife.js"></script>
     <script>
-        // The widget is now available as MyWidget
-        console.log('MyWidget loaded!', MyWidget);
+        // The initMyWidget function is now available globally
+        console.log('Widget loaded! initMyWidget function available:', typeof initMyWidget);
         
-        // You can also manually render the widget
-        // MyWidget.renderWidget(document.getElementById('widget-container'));
+        // Example functions to initialize the widget with different configs
+        function initDarkTheme() {
+            initMyWidget({ theme: 'dark' });
+        }
+        
+        function initLightTheme() {
+            initMyWidget({ theme: 'light' });
+        }
+        
+        function initWithApiKey() {
+            initMyWidget({ 
+                theme: 'premium', 
+                apiKey: 'sk-1234567890abcdef' 
+            });
+        }
+        
+        // Initialize with default config on page load
+        initMyWidget({ theme: 'default' });
     </script>
 </body>
 </html>
