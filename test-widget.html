@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock Widget Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #widget-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <link rel="stylesheet" href="dist/my-widget.css">
+</head>
+<body>
+    <div id="widget-container">
+        <!-- The widget will be rendered here -->
+    </div>
+    
+    <script src="dist/my-widget.iife.js"></script>
+    <script>
+        // The widget is now available as MyWidget
+        console.log('MyWidget loaded!', MyWidget);
+        
+        // You can also manually render the widget
+        // MyWidget.renderWidget(document.getElementById('widget-container'));
+    </script>
+</body>
+</html>

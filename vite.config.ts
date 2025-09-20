@@ -9,9 +9,9 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     build: isWidget ? {
       lib: {
-        entry: './src/main.tsx',
-        name: 'ViteWidget',
-        fileName: 'vite-widget',
+        entry: './src/main-widget.tsx',
+        name: 'MyWidget',
+        fileName: 'my-widget',
         formats: ['iife']
       },
       rollupOptions: {
