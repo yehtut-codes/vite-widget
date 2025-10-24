@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Debug Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1e1e1e; color: #fff; }
+        pre { background: #2d2d2d; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .success { color: #4caf50; }
+        .error { color: #f44336; }
+        #widget-container { margin-top: 20px; padding: 20px; background: #2d2d2d; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Widget Debug Test</h1>
+    <div id="output"></div>
+    <div id="widget-container"></div>
+    
+    <link rel="stylesheet" href="./dist/assets/my-widget.css">
+    <script src="./dist/my-widget.iife.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        function log(message, isError = false) {
+            const line = document.createElement('pre');
+            line.className = isError ? 'error' : 'success';
+            line.textContent = message;
+            output.appendChild(line);
+            console.log(message);
+        }
+        
+        log('=== Widget Debug Information ===');
+        log(`window.MyWidget exists: ${!!window.MyWidget}`);
+        
+        if (window.MyWidget) {
+            log(`MyWidget keys: ${Object.keys(window.MyWidget).join(', ')}`);
+            log(`MyWidget.default exists: ${!!window.MyWidget.default}`);
+            
+            if (window.MyWidget.default) {
+                log(`MyWidget.default keys: ${Object.keys(window.MyWidget.default).join(', ')}`);
+            }
+            
+            log(`MyWidget.initMyWidget exists: ${!!window.MyWidget.initMyWidget}`);
+            log(`MyWidget.default.initMyWidget exists: ${!!window.MyWidget.default?.initMyWidget}`);
+            
+            // Try to initialize
+            const initFn = window.MyWidget.initMyWidget || window.MyWidget.default?.initMyWidget;
+            
+            if (initFn) {
+                log('✓ Found initMyWidget function, calling it...');
+                initFn({}, {
+                    onSuccess: (instance) => {
+                        log('✓ Widget initialized successfully!');
+                        log(`Instance: ${JSON.stringify(instance, null, 2)}`);
+                    },
+                    onError: (error) => {
+                        log(`✗ Widget initialization failed: ${error.message}`, true);
+                        log(`Error details: ${JSON.stringify(error, null, 2)}`, true);
+                    }
+                });
+            } else {
+                log('✗ Could not find initMyWidget function', true);
+            }
+        } else {
+            log('✗ window.MyWidget not found!', true);
+        }
+    </script>
+</body>
+</html>

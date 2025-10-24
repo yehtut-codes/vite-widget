@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Embed Example - Works on Any Website</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .example-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .example-section h2 {
+            margin-top: 0;
+            color: #444;
+            font-size: 1.25rem;
+        }
+        
+        .widget-container {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: #fafafa;
+        }
+        
+        code {
+            background: #f0f0f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f8;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Widget Embed Examples</h1>
+    <p class="subtitle">This widget works on ANY website including localhost, production sites, and even local HTML files!</p>
+
+    <div class="success-box">
+        <strong>✅ Universal Compatibility:</strong> This widget can be embedded anywhere using a simple iframe. 
+        No special configuration or CORS setup needed!
+    </div>
+
+    <!-- Example 1: Basic Embed -->
+    <div class="example-section">
+        <h2>1. Basic Widget Embed</h2>
+        <p>The simplest way to embed your widget:</p>
+        
+        <div class="widget-container">
+            <iframe
+                src="https://symphonious-faloodeh-a943e6.netlify.app"
+                width="400"
+                height="300"
+                frameborder="0"
+                style="border-radius: 8px;">
+            </iframe>
+        </div>
+        
+        <pre><code>&lt;iframe
+    src="https://symphonious-faloodeh-a943e6.netlify.app"
+    width="400"
+    height="300"
+    frameborder="0"&gt;
+&lt;/iframe&gt;</code></pre>
+    </div>
+
+    <!-- Example 2: With Theme Configuration -->
+    <div class="example-section">
+        <h2>2. Widget with Dark Theme</h2>
+        <p>Add URL parameters to customize the widget:</p>
+        
+        <div class="widget-container">
+            <iframe
+                src="https://symphonious-faloodeh-a943e6.netlify.app?theme=dark"
+                width="400"
+                height="300"
+                frameborder="0"
+                style="border-radius: 8px;">
+            </iframe>
+        </div>
+        
+        <pre><code>&lt;iframe
+    src="https://symphonious-faloodeh-a943e6.netlify.app?theme=dark"
+    width="400"
+    height="300"
+    frameborder="0"&gt;
+&lt;/iframe&gt;</code></pre>
+    </div>
+
+    <!-- Example 3: Debug Mode -->
+    <div class="example-section">
+        <h2>3. Widget with Debug Mode (Open Console)</h2>
+        <p>Add <code>?debug=true</code> to see debug logs in the browser console:</p>
+        
+        <div class="widget-container">
+            <iframe
+                src="https://symphonious-faloodeh-a943e6.netlify.app?debug=true"
+                width="400"
+                height="300"
+                frameborder="0"
+                style="border-radius: 8px;">
+            </iframe>
+        </div>
+        
+        <pre><code>&lt;iframe
+    src="https://symphonious-faloodeh-a943e6.netlify.app?debug=true"
+    width="400"
+    height="300"
+    frameborder="0"&gt;
+&lt;/iframe&gt;</code></pre>
+    </div>
+
+    <!-- Example 4: Multiple Widgets -->
+    <div class="example-section">
+        <h2>4. Multiple Widgets on Same Page</h2>
+        <p>You can embed multiple widgets with different configurations:</p>
+        
+        <div class="grid">
+            <div class="widget-container">
+                <iframe
+                    src="https://symphonious-faloodeh-a943e6.netlify.app?theme=default"
+                    width="100%"
+                    height="250"
+                    frameborder="0"
+                    style="border-radius: 8px;">
+                </iframe>
+            </div>
+            <div class="widget-container">
+                <iframe
+                    src="https://symphonious-faloodeh-a943e6.netlify.app?theme=dark"
+                    width="100%"
+                    height="250"
+                    frameborder="0"
+                    style="border-radius: 8px;">
+                </iframe>
+            </div>
+            <div class="widget-container">
+                <iframe
+                    src="https://symphonious-faloodeh-a943e6.netlify.app?theme=premium"
+                    width="100%"
+                    height="250"
+                    frameborder="0"
+                    style="border-radius: 8px;">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Usage Information -->
+    <div class="example-section">
+        <h2>📚 Usage Information</h2>
+        
+        <h3>Available URL Parameters:</h3>
+        <ul>
+            <li><code>theme</code> - Widget theme (default, dark, premium)</li>
+            <li><code>debug</code> - Enable debug logging (true/false)</li>
+            <li><code>apiKey</code> - Your API key (optional)</li>
+        </ul>
+        
+        <h3>✅ Works On:</h3>
+        <ul>
+            <li>✓ Any production website (HTTPS)</li>
+            <li>✓ Localhost development servers</li>
+            <li>✓ Local HTML files (file://)</li>
+            <li>✓ WordPress, Shopify, Wix, Squarespace, etc.</li>
+            <li>✓ React, Vue, Angular applications</li>
+            <li>✓ Static HTML websites</li>
+        </ul>
+        
+        <div class="info-box">
+            <strong>💡 Tip:</strong> The widget is hosted on Netlify's global CDN, so it loads fast from anywhere in the world!
+        </div>
+    </div>
+
+    <!-- React Integration Example -->
+    <div class="example-section">
+        <h2>⚛️ React Integration Example</h2>
+        <pre><code>import React from 'react';
+
+function MyComponent() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;My App with Widget&lt;/h1&gt;
+      &lt;iframe
+        src="https://symphonious-faloodeh-a943e6.netlify.app?theme=dark"
+        width="400"
+        height="300"
+        frameBorder="0"
+        title="My Widget"
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default MyComponent;</code></pre>
+    </div>
+
+    <!-- WordPress Integration Example -->
+    <div class="example-section">
+        <h2>📝 WordPress Integration</h2>
+        <p>Add this to any WordPress page or post using the HTML block:</p>
+        <pre><code>&lt;!-- In WordPress HTML Block --&gt;
+&lt;div style="text-align: center; padding: 2rem;"&gt;
+  &lt;iframe
+    src="https://symphonious-faloodeh-a943e6.netlify.app"
+    width="400"
+    height="300"
+    frameborder="0"
+    style="max-width: 100%;"&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+</body>
+</html>

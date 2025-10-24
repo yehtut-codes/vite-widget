@@ -20,15 +20,43 @@ const MyWidget: React.FC<MyWidgetProps> = ({ config }) => {
     setCount(prevCount => prevCount + 1)
   }
 
+  const handleDecrement = () => {
+    setCount(prevCount => Math.max(0, prevCount - 1))
+  }
+
+  const handleReset = () => {
+    setCount(0)
+  }
+
   return (
     <div className={styles.widget}>
-      <h1>Current Theme: {theme}</h1>
+      <h1>🎯 Interactive Widget</h1>
+      <p className="theme-info">Current Theme: <strong>{theme}</strong></p>
       
-      <div className="count-section">
-        <p className="count-display">Count: {count}</p>
-        <button className="increment-button" onClick={handleIncrement}>
-          Increment Count
-        </button>
+      <div className="counter-section">
+        <h2>🔢 Counter Function</h2>
+        <div className="counter-display">
+          <span className="count-number">{count}</span>
+        </div>
+        
+        <div className="counter-controls">
+          <button className="btn-decrement" onClick={handleDecrement} title="Decrease count">
+            ➖ Decrease
+          </button>
+          <button className="btn-increment" onClick={handleIncrement} title="Increase count">
+            ➕ Increase
+          </button>
+          <button className="btn-reset" onClick={handleReset} title="Reset to zero">
+            🔄 Reset
+          </button>
+        </div>
+        
+        <div className="counter-stats">
+          <small>
+            Status: {count === 0 ? 'Zero' : count < 10 ? 'Low' : count < 50 ? 'Medium' : 'High'} 
+            | Clicks: {count}
+          </small>
+        </div>
       </div>
 
       {apiKey && (

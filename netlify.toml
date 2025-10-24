@@ -1,0 +1,20 @@
+[build]
+  publish = "dist"
+  command = "npm run build:iframe"
+
+[[redirects]]
+  from = "/"
+  to = "/iframe.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/iframe.html"
+  status = 404
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    X-Frame-Options = "ALLOWALL"
+    Content-Security-Policy = "frame-ancestors *"

@@ -79,19 +79,22 @@
         <p>Failed to load widget. Please try again later.</p>
     </div>
     
-    <!-- Widget container -->
-    <div id="my-widget-container" class="widget-iframe-wrapper" style="display: none;"></div>
+    <!-- Widget container - This is where React will render -->
+    <div id="my-widget-container"></div>
 
+    <!-- Widget CSS -->
+    <link rel="stylesheet" href="./assets/my-widget.css">
+    
     <!-- Widget JavaScript -->
     <script src="./my-widget.iife.js"></script>
     <script>
-        // Auto-initialize widget with iframe-specific configuration
+        // Simple, reliable initialization
         (function() {
             const loading = document.getElementById('loading');
             const error = document.getElementById('error');
             const container = document.getElementById('my-widget-container');
             
-            // Parse URL parameters for configuration
+            // Parse URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             const config = {
                 theme: urlParams.get('theme') || 'default',
@@ -104,18 +107,55 @@
                 config[key] === undefined && delete config[key]
             );
             
-            // Initialize widget with error handling
-            function initWidget() {
-                if (typeof window.initMyWidget === 'function') {
-                    window.initMyWidget(config, {
-                        timeout: 10000,
-                        retries: 2,
+            let retryCount = 0;
+            const maxRetries = 100; // 10 seconds
+            
+            function attemptInit() {
+                try {
+                    if (config.debug) {
+                        console.log('[Widget Debug] Attempt:', retryCount);
+                        console.log('[Widget Debug] window.MyWidget:', window.MyWidget);
+                        console.log('[Widget Debug] typeof MyWidget:', typeof window.MyWidget);
+                    }
+                    
+                    // Check if MyWidget global is available
+                    if (typeof window.MyWidget === 'undefined') {
+                        retryCount++;
+                        if (retryCount < maxRetries) {
+                            setTimeout(attemptInit, 100);
+                            return;
+                        } else {
+                            throw new Error('MyWidget script failed to load');
+                        }
+                    }
+                    
+                    // Try to find the init function
+                    let initFn = null;
+                    
+                    if (typeof window.MyWidget.initMyWidget === 'function') {
+                        initFn = window.MyWidget.initMyWidget;
+                    } else if (typeof window.MyWidget.default === 'object' && typeof window.MyWidget.default.initMyWidget === 'function') {
+                        initFn = window.MyWidget.default.initMyWidget;
+                    }
+                    
+                    if (config.debug) {
+                        console.log('[Widget Debug] initFn found:', !!initFn);
+                        console.log('[Widget Debug] MyWidget keys:', Object.keys(window.MyWidget));
+                    }
+                    
+                    if (!initFn) {
+                        throw new Error('initMyWidget function not found. Available: ' + Object.keys(window.MyWidget).join(', '));
+                    }
+                    
+                    // Call initialization
+                    initFn(config, {
                         onSuccess: function(instance) {
-                            // Hide loading, show widget
+                            if (config.debug) {
+                                console.log('[Widget Debug] Success!', instance);
+                            }
                             loading.style.display = 'none';
-                            container.style.display = 'flex';
                             
-                            // Post message to parent (for iframe communication)
+                            // Notify parent
                             if (window.parent !== window) {
                                 window.parent.postMessage({
                                     type: 'widget-loaded',
@@ -124,27 +164,32 @@
                             }
                         },
                         onError: function(err) {
-                            console.error('Widget initialization failed:', err);
-                            // Hide loading, show error
-                            loading.style.display = 'none';
-                            error.style.display = 'flex';
-                            
-                            // Post error message to parent
-                            if (window.parent !== window) {
-                                window.parent.postMessage({
-                                    type: 'widget-error',
-                                    data: { error: err.message }
-                                }, '*');
-                            }
+                            throw err;
                         }
                     });
-                } else {
-                    setTimeout(initWidget, 100); // Retry if widget not loaded yet
+                    
+                } catch (err) {
+                    console.error('[Widget Error]', err);
+                    loading.style.display = 'none';
+                    error.style.display = 'flex';
+                    error.querySelector('p').textContent = err.message || 'Widget failed to load';
+                    
+                    if (window.parent !== window) {
+                        window.parent.postMessage({
+                            type: 'widget-error',
+                            data: { error: err.message }
+                        }, '*');
+                    }
                 }
             }
             
-            // Start initialization
-            initWidget();
+            // Wait for script to load
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => setTimeout(attemptInit, 100));
+            } else {
+                setTimeout(attemptInit, 100);
+            }
+        })();
             
             // Handle window resize for responsive iframe
             function handleResize() {

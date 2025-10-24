@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Test</title>
+</head>
+<body>
+    <h1>Widget Test</h1>
+    <div id="test-container"></div>
+    
+    <script src="./dist/my-widget.iife.js"></script>
+    <script>
+        console.log('Window object:', window);
+        console.log('MyWidget:', window.MyWidget);
+        console.log('initMyWidget:', window.initMyWidget);
+        
+        // Check what's available
+        if (window.MyWidget) {
+            console.log('MyWidget properties:', Object.keys(window.MyWidget));
+            
+            if (window.MyWidget.initMyWidget) {
+                console.log('Calling MyWidget.initMyWidget...');
+                window.MyWidget.initMyWidget({}, {
+                    onSuccess: (instance) => console.log('Success!', instance),
+                    onError: (error) => console.error('Error!', error)
+                });
+            } else if (window.MyWidget.default && window.MyWidget.default.initMyWidget) {
+                console.log('Calling MyWidget.default.initMyWidget...');
+                window.MyWidget.default.initMyWidget({}, {
+                    onSuccess: (instance) => console.log('Success!', instance),
+                    onError: (error) => console.error('Error!', error)
+                });
+            }
+        }
+    </script>
+</body>
+</html>

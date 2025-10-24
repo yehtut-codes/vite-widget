@@ -214,10 +214,17 @@ if (typeof document !== 'undefined') {
 }
 
 // Default export for the widget
-export default {
+const WidgetAPI = {
   Clock,
   MyWidget,
   ErrorBoundary,
   renderWidget,
   initMyWidget
+}
+
+export default WidgetAPI
+
+// Explicitly expose to window for IIFE builds
+if (typeof window !== 'undefined') {
+  (window as any).MyWidget = WidgetAPI
 }
