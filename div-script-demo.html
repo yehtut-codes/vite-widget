@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Div+Script Widget Demo - Simple Embeddable Widget</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-card h2 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .info-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-block code {
+            color: #68d391;
+        }
+
+        .widget-showcase {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .widget-showcase h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .widget-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border: 2px dashed #cbd5e0;
+            padding: 1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #48bb78;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .steps {
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .step-content h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .step-content p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .highlight strong {
+            color: #d68910;
+        }
+    </style>
+
+    <!-- 
+        STEP 1: Load the widget CSS 
+        This file contains all the styles for the widget
+    -->
+    <link rel="stylesheet" href="dist/assets/my-widget.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>🚀 Div+Script Embeddable Widget</h1>
+            <p>A simple, JavaScript-based widget that can be embedded on any website</p>
+        </div>
+
+        <!-- What is this Section -->
+        <div class="info-card">
+            <h2>📚 What is a Div+Script Widget?</h2>
+            <p>
+                A <strong>div+script widget</strong> is the most common way to embed third-party functionality on websites. 
+                It consists of two parts:
+            </p>
+            <ol style="padding-left: 1.5rem; color: #666; line-height: 1.8;">
+                <li><strong>A &lt;div&gt; container</strong> - Where the widget will be rendered</li>
+                <li><strong>A &lt;script&gt; tag</strong> - That loads and initializes the widget</li>
+            </ol>
+            <p style="margin-top: 1rem;">
+                This approach is used by Google Analytics, Disqus Comments, Facebook widgets, and many other popular services.
+            </p>
+        </div>
+
+        <!-- Implementation Steps -->
+        <div class="info-card">
+            <h2>⚡ How to Implement (3 Simple Steps)</h2>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Add the CSS link</h3>
+                        <p>Include the widget stylesheet in your HTML &lt;head&gt; section</p>
+                        <div class="code-block">
+&lt;link rel="stylesheet" href="path/to/my-widget.css"&gt;
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Add the container div</h3>
+                        <p>Place this where you want the widget to appear</p>
+                        <div class="code-block">
+&lt;div id="my-widget-container"&gt;&lt;/div&gt;
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Load and initialize the widget</h3>
+                        <p>Add these script tags at the end of your &lt;body&gt;</p>
+                        <div class="code-block">
+&lt;script src="path/to/my-widget.iife.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    window.initMyWidget();
+&lt;/script&gt;
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <strong>✨ That's it!</strong> The widget will automatically render in the container.
+            </div>
+        </div>
+
+        <!-- Live Widget Demo -->
+        <div class="widget-showcase">
+            <h2>🎯 Live Widget Demo <span class="badge">Interactive</span></h2>
+            
+            <!-- 
+                STEP 2: Add the widget container
+                This is where the widget will be rendered
+            -->
+            <div class="widget-wrapper">
+                <div id="my-widget-container"></div>
+            </div>
+        </div>
+
+        <!-- Complete Example Code -->
+        <div class="info-card">
+            <h2>💻 Complete Example Code</h2>
+            <p>Copy and paste this into any HTML file to embed the widget:</p>
+            <div class="code-block">
+<span style="color: #718096;">&lt;!DOCTYPE html&gt;</span>
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My Website with Widget&lt;/title&gt;
+    
+    <span style="color: #48bb78;">&lt;!-- Widget CSS --&gt;</span>
+    &lt;link rel="stylesheet" href="dist/assets/my-widget.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome to My Website&lt;/h1&gt;
+    
+    <span style="color: #48bb78;">&lt;!-- Widget Container --&gt;</span>
+    &lt;div id="my-widget-container"&gt;&lt;/div&gt;
+    
+    <span style="color: #48bb78;">&lt;!-- Widget JavaScript --&gt;</span>
+    &lt;script src="dist/my-widget.iife.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+        <span style="color: #48bb78;">// Initialize the widget</span>
+        window.initMyWidget();
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </div>
+        </div>
+
+        <!-- Configuration Options -->
+        <div class="info-card">
+            <h2>⚙️ Configuration Options</h2>
+            <p>You can customize the widget by passing configuration options:</p>
+            <div class="code-block">
+window.initMyWidget({
+    theme: 'dark',              <span style="color: #718096;">// Options: 'light', 'dark', 'default', 'premium'</span>
+    apiKey: 'your-api-key'      <span style="color: #718096;">// Optional API key</span>
+});
+            </div>
+
+            <h3 style="margin-top: 1.5rem; color: #333;">Available Options:</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>theme</h3>
+                    <p>Visual theme for the widget. Options: 'light', 'dark', 'default', 'premium'</p>
+                </div>
+                <div class="feature-card">
+                    <h3>apiKey</h3>
+                    <p>Your API key for authenticated features (optional)</p>
+                </div>
+                <div class="feature-card">
+                    <h3>locale</h3>
+                    <p>Language/locale code like 'en-US', 'es-ES' (optional)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="info-card">
+            <h2>✨ Widget Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🎯 Interactive Counter</h3>
+                    <p>Fully functional increment, decrement, and reset buttons</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎨 Theme Support</h3>
+                    <p>Multiple built-in themes for different website styles</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ Fast & Lightweight</h3>
+                    <p>Built with Vite for optimal bundle size (61KB gzipped)</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🛡️ Error Handling</h3>
+                    <p>Built-in error boundaries and retry logic</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📱 Responsive</h3>
+                    <p>Works perfectly on mobile, tablet, and desktop</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔧 Easy to Integrate</h3>
+                    <p>Works with any framework or plain HTML</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Why Use This Approach -->
+        <div class="info-card">
+            <h2>🤔 Why Use Div+Script Embedding?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>✅ Pros</h3>
+                    <p>
+                        • Simple implementation<br>
+                        • Works on any website<br>
+                        • No iframe overhead<br>
+                        • Direct DOM access<br>
+                        • Easy to customize
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚠️ Cons</h3>
+                    <p>
+                        • Requires hosting files<br>
+                        • Larger initial load<br>
+                        • Potential CSS conflicts<br>
+                        • Global namespace usage
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎯 Best For</h3>
+                    <p>
+                        • Internal tools<br>
+                        • Trusted partners<br>
+                        • Custom integrations<br>
+                        • Full-featured widgets
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Browser Support -->
+        <div class="info-card">
+            <h2>🌐 Browser Support</h2>
+            <p>This widget works on all modern browsers:</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Chrome</h3>
+                    <p>Version 90 and above ✅</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Firefox</h3>
+                    <p>Version 88 and above ✅</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Safari</h3>
+                    <p>Version 14 and above ✅</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Edge</h3>
+                    <p>Version 90 and above ✅</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="info-card" style="text-align: center;">
+            <h2>📖 Learn More</h2>
+            <p>For detailed documentation, check out:</p>
+            <div style="margin-top: 1rem;">
+                <strong>IMPLEMENTATION_GUIDE.md</strong> - Complete implementation guide<br>
+                <strong>EMBEDDING_GUIDE.md</strong> - General embedding documentation<br>
+                <strong>simple-demo.html</strong> - Minimal working example
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        STEP 3: Load and initialize the widget
+        These scripts load the widget and render it in the container
+    -->
+    <script src="dist/my-widget.iife.js"></script>
+    <script>
+        // Initialize the widget with default configuration
+        // You can pass options like { theme: 'dark', apiKey: 'your-key' }
+        window.initMyWidget();
+
+        console.log('✅ Widget initialized successfully!');
+        console.log('👉 Check the widget container above to see it in action');
+        console.log('📚 For more info, see IMPLEMENTATION_GUIDE.md');
+    </script>
+</body>
+</html>

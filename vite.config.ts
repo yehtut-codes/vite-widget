@@ -7,6 +7,9 @@ export default defineConfig(({ mode }) => {
   
   return {
     plugins: [react()],
+    define: isWidget ? {
+      'process.env.NODE_ENV': JSON.stringify('production')
+    } : {},
     build: isWidget ? {
       lib: {
         entry: './src/main-widget.tsx',
