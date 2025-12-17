@@ -436,7 +436,8 @@ npm run build:widget
 ## Support and Documentation
 
 For more examples and documentation:
-- Check `simple-demo.html` for a working example
+- Check `minimal-example.html` for a minimal working example
+- Check `div-script-demo.html` for a comprehensive demo
 - See `EMBEDDING_GUIDE.md` for IIFE-based embedding
 - See `embed-example.html` for iframe-based embedding
 
